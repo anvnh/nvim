@@ -1,8 +1,23 @@
--- NOTE: Display error messages in a floating window
-vim.api.nvim_create_autocmd('CursorHold', {
-  callback = function()
-    vim.diagnostic.open_float(nil, { focus = false })
-  end,
+-- NOTE: Disable automatic diagnostic display - only show on manual trigger
+-- vim.api.nvim_create_autocmd('CursorHold', {
+--   callback = function()
+--     vim.diagnostic.open_float(nil, { focus = false })
+--   end,
+-- })
+
+-- Configure diagnostics to be less intrusive
+vim.diagnostic.config({
+  virtual_text = false, -- Disable inline diagnostic text
+  signs = true, -- Keep diagnostic signs in gutter
+  underline = true, -- Keep underline for errors
+  update_in_insert = false, -- Don't update diagnostics while typing
+  severity_sort = true, -- Sort diagnostics by severity
+  float = {
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = "",
+  },
 })
 
 local autocmd = vim.api.nvim_create_autocmd

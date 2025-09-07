@@ -27,3 +27,4 @@ require("custom.keymaps.flutter")
 
 require("custom.keymaps.tabby")
 require("custom.keymaps.theme-toggle")
+require("custom.keymaps.minimap")

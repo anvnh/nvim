@@ -63,3 +63,34 @@ map('n', '<leader>ca', function()
   vim.lsp.buf.code_action()
 end, { desc = 'Code action' })
 --}}}
+
+--{{{ Diagnostics
+-- Show diagnostic under cursor
+map('n', '<leader>d', function()
+  vim.diagnostic.open_float(nil, { focus = false })
+end, { desc = 'Show diagnostic under cursor' })
+
+-- Show all diagnostics in current buffer
+map('n', '<leader>dd', function()
+  vim.diagnostic.setloclist()
+end, { desc = 'Show all diagnostics in buffer' })
+
+-- Navigate diagnostics
+map('n', '[d', function()
+  vim.diagnostic.goto_prev()
+end, { desc = 'Go to previous diagnostic' })
+
+map('n', ']d', function()
+  vim.diagnostic.goto_next()
+end, { desc = 'Go to next diagnostic' })
+
+-- Toggle diagnostic virtual text
+map('n', '<leader>dt', function()
+  local current = vim.diagnostic.config().virtual_text
+  vim.diagnostic.config({ virtual_text = not current })
+end, { desc = 'Toggle diagnostic virtual text' })
+--}}}
+
+--{{{ Minimap
+require("custom.keymaps.minimap").setup()
+--}}}
