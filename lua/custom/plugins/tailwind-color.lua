@@ -13,4 +13,7 @@ return {
       on_attach = on_attach,
     }
   end,
+  -- Disable the plugin temporarily to avoid deprecation warnings
+  -- until the plugin is updated to use the newer API
+  enabled = false,
 }

@@ -26,3 +26,4 @@ require("custom.keymaps.undotree")
 require("custom.keymaps.flutter")
 
 require("custom.keymaps.tabby")
+require("custom.keymaps.theme-toggle")

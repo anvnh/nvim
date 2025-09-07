@@ -1,13 +1,15 @@
+local theme_loader = require('custom.theme-loader')
+
 return {
   {
     'catppuccin/nvim',
     config = function()
       require('catppuccin').setup {
-        flavour = 'mocha', -- latte, frappe, macchiato, mocha
-        background = { -- :h background
-          light = 'latte',
-          dark = 'frappe',
-        },
+        -- flavour = 'mocha', -- latte, frappe, macchiato, mocha
+        -- background = { -- :h background
+        --   light = 'latte',
+        --   dark = 'frappe',
+        -- },
         transparent_background = false, -- disables setting the background color.
         show_end_of_buffer = true, -- shows the '~' characters after the end of buffers
         term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
@@ -48,11 +50,55 @@ return {
             enabled = true,
             indentscope_color = '',
           },
-          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
       }
       -- setup must be called before loading
-      vim.cmd.colorscheme 'catppuccin-frappe'
+      theme_loader.load_theme('catppuccin-frappe')
+    end,
+  },
+  {
+    'ellisonleao/gruvbox.nvim',
+    priority = 1000,
+    config = function()
+      require('gruvbox').setup({
+        terminal_colors = true, -- add neovim terminal colors
+        undercurl = true,
+        underline = true,
+        bold = true,
+        italic = {
+          strings = true,
+          emphasis = true,
+          comments = true,
+          operators = false,
+          folds = true,
+        },
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        invert_intend_guides = false,
+        inverse = true, -- invert background for search, diffs, statuslines and errors
+        contrast = 'hard', -- can be "hard", "soft" or empty string
+        background = 'light',
+        palette_overrides = {},
+        overrides = {},
+        dim_inactive = false,
+        transparent_mode = false,
+      })
+      -- Load saved theme or default to catppuccin-frappe
+    end,
+  },
+  {
+    'zaldih/themery.nvim',
+    cmd = 'Themery',
+    config = function()
+      require('themery').setup({
+        themes = {
+          'catppuccin-frappe',
+          'gruvbox',
+        },
+        livePreview = true,
+      })
     end,
   },
 }
