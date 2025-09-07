@@ -18,7 +18,7 @@ g.editorconfig = true
 
 opt.exrc = true
 opt.secure = true
-opt.expandtab = true
+-- opt.expandtab = true
 opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
