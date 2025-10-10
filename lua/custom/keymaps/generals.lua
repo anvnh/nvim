@@ -90,7 +90,3 @@ map('n', '<leader>dt', function()
   vim.diagnostic.config({ virtual_text = not current })
 end, { desc = 'Toggle diagnostic virtual text' })
 --}}}
-
---{{{ Minimap
-require("custom.keymaps.minimap").setup()
---}}}

@@ -40,7 +40,7 @@ opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true
 opt.timeoutlen = 400
-opt.undofile = true
+-- opt.undofile = true
 opt.whichwrap:append '<>[]hl'
 opt.scrolloff = 8
 opt.mouse = 'a'
@@ -55,8 +55,7 @@ vim.schedule(function()
 end)
 -- Enable break indent
 opt.breakindent = true
--- Save undo history
-opt.undofile = true
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 opt.ignorecase = true
 opt.smartcase = true

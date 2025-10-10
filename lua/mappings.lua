@@ -21,10 +21,8 @@ require("custom.keymaps.toggle-checkbox")
 require("custom.keymaps.competitive_programming")
 require("custom.keymaps.coderunner")
 require("custom.keymaps.copilot")
-require("custom.keymaps.undotree")
 -- require 'custom.keymaps.markdown'
 require("custom.keymaps.flutter")
 
 require("custom.keymaps.tabby")
 require("custom.keymaps.theme-toggle")
-require("custom.keymaps.minimap")
