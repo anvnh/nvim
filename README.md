@@ -28,12 +28,7 @@ External Requirements:
   - If you want to write Typescript, you need `npm`
   - If you want to write Golang, you will need `go`
   - etc...
->[!note]
-> On Fedora, you may need to install lua 5.1 in order to install and use luarock plugins (in /lua/custom/plugins/image.lua)
 
-```sh
-sudo dnf install lua-5.1
-```
 
 > **NOTE**
 > [Backup](#FAQ) your previous configuration (if any exists)
@@ -79,9 +74,6 @@ git clone https://github.com/anvnh/neovim-config.git "${env:LOCALAPPDATA}\nvim"
 #### Requires dependencies: 
 ##### Arch Linux
 - Nerd fonts
-```sh
-sudo pacman -S $(pacman -Sgq nerd-fonts)
-```
 - Dependencies for tree-sitter
 ```sh
 sudo pacman -Sy nodejs npm unzip zip sxiv imagemagick
@@ -100,6 +92,7 @@ Start Neovim inside any terminal emulator (e.g., `gnome-terminal`, `konsole`, `k
 ```sh
 nvim
 ```
+
 That's it! Lazy will install all the plugins you have. Use `:Lazy` to view
 the current plugin status. Hit `q` to close the window.
 
