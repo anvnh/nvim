@@ -14,9 +14,6 @@ vim.cmd [[let &t_Ce = "\e[4:0m]"]]
 opt.conceallevel = 1
 opt.foldmethod = 'marker'
 
--- Set light mode for gruvbox
-vim.o.background = "light"
-
 g.editorconfig = true
 
 opt.exrc = true

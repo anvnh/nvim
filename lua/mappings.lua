@@ -25,4 +25,3 @@ require("custom.keymaps.copilot")
 require("custom.keymaps.flutter")
 
 require("custom.keymaps.tabby")
-require("custom.keymaps.theme-toggle")
