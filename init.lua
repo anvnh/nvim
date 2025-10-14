@@ -311,10 +311,6 @@ require("lazy").setup({
                                     })
                               end
 
-                              -- The following code creates a keymap to toggle inlay hints in your
-                              -- code, if the language server you are using supports them
-                              --
-                              -- This may be unwanted, since they displace some of your code
                               if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
                                     map("<leader>th", function()
                                           vim.lsp.inlay_hint.enable(
@@ -325,29 +321,19 @@ require("lazy").setup({
                         end,
                   })
 
-                  -- Change diagnostic symbols in the sign column (gutter)
-                  -- if vim.g.have_nerd_font then
-                  --   local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
-                  --   local diagnostic_signs = {}
-                  --   for type, icon in pairs(signs) do
-                  --     diagnostic_signs[vim.diagnostic.severity[type]] = icon
-                  --   end
-                  --   vim.diagnostic.config { signs = { text = diagnostic_signs } }
-                  -- end
-
-                  -- LSP servers and clients are able to communicate to each other what features they support.
-                  --  By default, Neovim doesn't support everything that is in the LSP specification.
-                  --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-                  --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
                   local capabilities = vim.lsp.protocol.make_client_capabilities()
                   capabilities =
                         vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
                   local servers = {
                         clangd = {
-                              capabilities = capabilities,
-                              settings = {
-                                    clangd = { diagnostics = { enabled = false } },
+                              capabilities = vim.tbl_deep_extend("force", capabilities, { offsetEncoding = { "utf-16" } }),
+                              cmd = {
+                                    "clangd",
+                                    "--background-index",
+                                    "--clang-tidy",
+                                    "--all-scopes-completion",
+                                    "--header-insertion=iwyu",
                               },
                         },
                         ts_ls = {
@@ -378,11 +364,6 @@ require("lazy").setup({
                                     },
                               },
                         },
-                        kotlin_language_server = {
-                              filetypes = { "kotlin", "kt", "kts" },
-                              capabilities = capabilities, -- tell language server about completion capabilities
-                        },
-
                         -- lua_ls = {
                         -- 	-- cmd = { ... },
                         -- 	-- filetypes = { ... },
@@ -552,10 +533,11 @@ require("lazy").setup({
             build = ":TSUpdate",
             main = "nvim-treesitter.configs", -- Sets main module to use for opts
             -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-            opts = {
+                          opts = {
                   ensure_installed = {
                         "bash",
                         "c",
+                                          "cpp",
                         "diff",
                         "html",
                         "lua",
