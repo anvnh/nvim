@@ -50,6 +50,7 @@
   "todo-comments.nvim": { "branch": "main", "commit": "304a8d204ee787d2544d8bc23cd38d2f929e7cc5" },
   "toggle-checkbox.nvim": { "branch": "main", "commit": "665f1bf2c45060fbefa8b7fba35d26c46712b898" },
   "toggleterm.nvim": { "branch": "main", "commit": "50ea089fc548917cc3cc16b46a8211833b9e3c7c" },
+  "tokyonight.nvim": { "branch": "main", "commit": "2642dbb83333e0575d1c3436e1d837926871c5fb" },
   "vim-sleuth": { "branch": "master", "commit": "be69bff86754b1aa5adcbb527d7fcd1635a84080" },
   "vim-tmux-navigator": { "branch": "master", "commit": "c45243dc1f32ac6bcf6068e5300f3b2b237e576a" },
   "vim-wakatime": { "branch": "master", "commit": "d7973b157a632d1edeff01818f18d67e584eeaff" },

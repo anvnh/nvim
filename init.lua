@@ -588,8 +588,11 @@ require("lazy").setup({
       },
 })
 
--- Load Catppuccin theme
-vim.cmd.colorscheme("catppuccin")
+-- Apply saved theme (fallback to catppuccin)
+pcall(function()
+      local theme = require("custom.utils.theme_picker")
+      local applied = theme.apply_saved_or("catppuccin")
+end)
 
 -- dofile(vim.g.base46_cache .. 'defaults')
 -- dofile(vim.g.base46_cache .. 'statusline')

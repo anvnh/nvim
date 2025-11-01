@@ -93,3 +93,9 @@ map("n", "<leader>dt", function()
       vim.diagnostic.config({ virtual_text = not current })
 end, { desc = "Toggle diagnostic virtual text" })
 --}}}
+
+--{{{ Theme picker
+map("n", "<leader>tt", function()
+      require("custom.utils.theme_picker").open()
+end, { desc = "Select theme" })
+--}}}
