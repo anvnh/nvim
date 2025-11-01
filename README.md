@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href=""><img src="/images/neovim.png" alt="Neovim" width="150"></a>
+  <a href=""><img src="images/neovim.png" alt="Neovim" width="150"></a>
   <br>
 	Neovim config
   <br>
@@ -26,22 +26,8 @@ Make sure neovim version is >= 0.8.0, otherwise this configuration may not work.
 - imagemagick (used by some image preview utilities)
 - sxiv (image viewer used by some workflows)
 
-Windows (recommended: use the official Neovim release + a package manager such as winget or Chocolatey)
-- Install Neovim: download the MSI from https://neovim.io or use winget/chocolatey.
-- Example (Chocolatey):
-
-```powershell
-choco install -y git nodejs-lts mingw ripgrep 7zip imagemagick
-# Install win32yank (manually from its GitHub releases) for clipboard support if needed
-```
-
-Or with winget (IDs may vary across versions):
-
-```powershell
-winget install --id Git.Git
-winget install --id OpenJS.NodeJS.LTS
-winget install --id ripgrep.ripgrep
-Platform-specific install examples (copyable)
+Windows (recommended)
+- Install Neovim from https://neovim.io or via your package manager (e.g., Chocolatey or winget). See the "Platform-specific install examples" below for copyable commands.
 
 Windows (Chocolatey example)
 ```powershell
@@ -188,16 +174,6 @@ Notes for NixOS: prefer adding packages to `environment.systemPackages` in `conf
 environment.systemPackages = with pkgs; [ git nodejs ripgrep unzip gcc imagemagick sxiv tree-sitter-cli ];
 ```
 
-Fonts
-- Nerd Fonts are strongly recommended for proper icons. Install by downloading prebuilt font packages (https://www.nerdfonts.com/) or via your distro's font packages / AUR / home-manager.
-
-Language runtimes
-- JavaScript/TypeScript: `nodejs` (+ `npm` or `pnpm`) — required for many LSPs and plugin build steps.
-- Go: `go` if you develop in Go (optional).
-
-If anything above is unclear for your environment, tell me which OS/distribution you're using and I can provide exact package names/commands.
-
-
 > **NOTE**
 > [Backup](#FAQ) your previous configuration (if any exists)
 
@@ -263,6 +239,18 @@ nvim
 
 That's it! Lazy will install all the plugins you have. Use `:Lazy` to view
 the current plugin status. Hit `q` to close the window.
+
+## Quick start
+
+- Open Neovim: `nvim` and wait for `lazy.nvim` to finish installing plugins.
+- Launch the built-in plugin manager UI: `:Lazy` to check installation status.
+
+## Troubleshooting
+
+- Missing icons: install a Nerd Font and set your terminal to use it.
+- Clipboard not working (Wayland): install `wl-clipboard` (`wl-copy`/`wl-paste`) or use a Wayland-compatible clipboard helper.
+- LSP / formatters not available: confirm language toolchains are installed (Java for jdtls, Python for pylsp/black, Node for language servers, Rust via rustup, etc.)
+- If something fails during plugin install, run `:Lazy log` and check for build errors; you can also run Neovim from a terminal to see stderr output.
 
 ## FAQ
 
