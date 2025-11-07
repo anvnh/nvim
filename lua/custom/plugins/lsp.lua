@@ -71,6 +71,8 @@ return {
             pcall(require, "lspconfig.server_configurations.gdscript")
             pcall(require, "lspconfig.server_configurations.lua_ls")
             pcall(require, "lspconfig.server_configurations.pyright")
+            pcall(require, "lspconfig.server_configurations.prettierd")
+            pcall(require, "lspconfig.server_configurations.jdtls")
 
             -- Select TS server (prefer ts_ls, fallback to tsserver)
             local ts_name
@@ -153,11 +155,12 @@ return {
                                           typeCheckingMode = "basic",        -- "off" | "basic" | "strict"
                                           autoImportCompletions = true,
                                           useLibraryCodeForTypes = true,
-                                          diagnosticMode = "openFilesOnly",  -- nhẹ hơn; đổi "workspace" nếu muốn
+                                          diagnosticMode = "openFilesOnly",
                                     },
                               },
                         },
-                  }
+                  },
+                  jdtls = { capabilities = capabilities },
             }
 
             -- NixOS: Check if binaries are on PATH
@@ -199,12 +202,12 @@ return {
 
             local function autostart(name, opts)
                   if not ensure_loaded(name) then
-                        vim.notify(("LSP server '%s' chưa được đăng ký (nvim-lspconfig)"):format(name), vim.log.levels.WARN)
+                        vim.notify(("LSP server '%s' is not registered (nvim-lspconfig)"):format(name), vim.log.levels.WARN)
                         return
                   end
                   local base = vim.lsp.config[name]
                   if type(base) ~= "table" then
-                        vim.notify(("vim.lsp.config['%s'] không phải table"):format(name), vim.log.levels.ERROR)
+                        vim.notify(("vim.lsp.config['%s'] is not a table"):format(name), vim.log.levels.ERROR)
                         return
                   end
                   local cfg = vim.tbl_deep_extend("force", {}, base, opts or {})
