@@ -3,7 +3,7 @@ M.map = vim.keymap.set
 M.api_map = vim.api.nvim_set_keymap
 M.opts = { noremap = true, silent = true }
 function M.create_desc(desc)
-	return vim.tbl_extend("force", M.opts, { desc = desc })
+      return vim.tbl_extend("force", M.opts, { desc = desc })
 end
 
 _G.map = M.map

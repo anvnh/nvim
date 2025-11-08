@@ -7,11 +7,11 @@ require("custom.keymaps.generals")
 require("custom.keymaps.oil")
 require("custom.keymaps.tmux")
 require("custom.keymaps.move")
-require("custom.keymaps.lazygit")
+-- require("custom.keymaps.lazygit")
 require("custom.keymaps.toggleterm")
 
--- require 'custom.keymaps.todo'
--- require 'custom.keymaps.todofloat'
+require("custom.keymaps.todo")
+-- require 'custom.keymaps.tdofloat'
 
 require("custom.keymaps.git-blame")
 
