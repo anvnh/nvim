@@ -171,3 +171,7 @@ do
             end
       end
 end
+
+-- NOTE: LOCAL PLUGINS
+-- Load and setup local url opener
+require("custom.plugins.local.url_opener").setup()
