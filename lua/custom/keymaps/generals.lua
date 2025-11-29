@@ -98,4 +98,9 @@ end, { desc = "Toggle diagnostic virtual text" })
 map("n", "<leader>tt", function()
       require("custom.utils.theme_picker").open()
 end, { desc = "Select theme" })
+
+--{{{ Minimap
+map("n", "<leader>m", function()
+      require("custom.plugins.local.minimap").toggle()
+end, { desc = "Toggle Minimap" })
 --}}}
