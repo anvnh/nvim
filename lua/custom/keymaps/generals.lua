@@ -1,5 +1,7 @@
 require("globals")
 
+map("n", "S", "i<CR><Esc>k$", { desc = "Split line and stay up" })
+
 ---{{{ Clear hightlight
 map("n", "<Esc>", "<cmd>nohlsearch<CR>")
 map("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })

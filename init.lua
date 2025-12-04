@@ -146,6 +146,7 @@ require("lazy").setup({
 pcall(function()
       local theme = require("custom.utils.theme_picker")
       local applied = theme.apply_saved_or("catppuccin")
+      theme.apply_saved_or("catppuccin")
 end)
 
 -- dofile(vim.g.base46_cache .. 'defaults')
@@ -175,4 +176,6 @@ end
 -- NOTE: LOCAL PLUGINS
 -- Load and setup local url opener
 require("custom.plugins.local.url_opener").setup()
-require("custom.plugins.local.minimap").setup()
+local minimap = require("custom.plugins.local.minimap")
+minimap.setup()
+minimap.toggle() -- Auto-open the minimap
