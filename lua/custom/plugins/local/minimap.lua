@@ -30,7 +30,7 @@ local defaults = {
             { 0x40, 0x80 }, -- Line 4
       },
       -- File types to ignore
-      ignore_filetypes = { "toggleterm", "oil" },
+      ignore_filetypes = { "toggleterm", "oil", "nofile", "lazy", "NvimTree", "help", "git", "terminal", "dashboard" },
       viewport_highlight = { bg = "#3b4252" },
 }
 
@@ -361,8 +361,11 @@ function M.toggle()
       end
 end
 
-function M.setup(opts)
-      -- Merge user options with defaults
+function M.is_user_enabled()
+      return state.is_open
+end
+
+function M.setup(opts) -- Merge user options with defaults
       config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
 
       vim.api.nvim_create_user_command("Minimap", M.toggle, {})

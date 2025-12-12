@@ -22,12 +22,18 @@ return {
                         map("gI", require("telescope.builtin").lsp_implementations, "Goto Implementation")
                         map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type Definition")
                         map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "Document Symbols")
-                        map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Workspace Symbols")
+                        map(
+                              "<leader>ws",
+                              require("telescope.builtin").lsp_dynamic_workspace_symbols,
+                              "Workspace Symbols"
+                        )
                         map("<leader>ca", vim.lsp.buf.code_action, "Code Action", { "n", "x" })
                         map("gD", vim.lsp.buf.declaration, "Goto Declaration")
 
                         local client = vim.lsp.get_client_by_id(event.data.client_id)
-                        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+                        if
+                              client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight)
+                        then
                               local hl = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
                               vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
                                     buffer = event.buf,
@@ -43,7 +49,10 @@ return {
                                     group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
                                     callback = function(ev2)
                                           vim.lsp.buf.clear_references()
-                                          vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = ev2.buf })
+                                          vim.api.nvim_clear_autocmds({
+                                                group = "kickstart-lsp-highlight",
+                                                buffer = ev2.buf,
+                                          })
                                     end,
                               })
                         end
@@ -67,7 +76,7 @@ return {
             pcall(require, "lspconfig.server_configurations.clangd")
             pcall(require, "lspconfig.server_configurations.ts_ls")
             pcall(require, "lspconfig.server_configurations.tsserver")
-            pcall(require, "lspconfig.server_configurations.kotlin_language_server")
+            -- pcall(require, "lspconfig.server_configurations.kotlin_language_server")
             pcall(require, "lspconfig.server_configurations.gdscript")
             pcall(require, "lspconfig.server_configurations.lua_ls")
             pcall(require, "lspconfig.server_configurations.pyright")
@@ -136,7 +145,7 @@ return {
                         },
                   },
                   gdscript = { capabilities = capabilities },
-                  kotlin_language_server = { capabilities = capabilities },
+                  -- kotlin_language_server = { capabilities = capabilities },
                   lua_ls = {
                         capabilities = capabilities,
                         settings = {
@@ -152,7 +161,7 @@ return {
                         settings = {
                               python = {
                                     analysis = {
-                                          typeCheckingMode = "basic",        -- "off" | "basic" | "strict"
+                                          typeCheckingMode = "basic", -- "off" | "basic" | "strict"
                                           autoImportCompletions = true,
                                           useLibraryCodeForTypes = true,
                                           diagnosticMode = "openFilesOnly",
@@ -161,6 +170,7 @@ return {
                         },
                   },
                   jdtls = { capabilities = capabilities },
+                  rust_analyzer = { capabilities = capabilities },
             }
 
             -- NixOS: Check if binaries are on PATH
@@ -184,9 +194,10 @@ return {
                   "pyright",
                   "tailwindcss-language-server",
                   "eslint_d",
-                  "kotlin-language-server",
+                  -- "kotlin-language-server",
                   "stylua",
                   "biome",
+                  "rust-analyzer",
             }) do
                   warn_missing(b)
             end
@@ -195,14 +206,19 @@ return {
             local group = vim.api.nvim_create_augroup("lsp-auto-start", { clear = true })
 
             local function ensure_loaded(name)
-                  if vim.lsp.config[name] then return true end
+                  if vim.lsp.config[name] then
+                        return true
+                  end
                   local ok = pcall(require, "lspconfig.server_configurations." .. name)
                   return ok and vim.lsp.config[name] ~= nil
             end
 
             local function autostart(name, opts)
                   if not ensure_loaded(name) then
-                        vim.notify(("LSP server '%s' is not registered (nvim-lspconfig)"):format(name), vim.log.levels.WARN)
+                        vim.notify(
+                              ("LSP server '%s' is not registered (nvim-lspconfig)"):format(name),
+                              vim.log.levels.WARN
+                        )
                         return
                   end
                   local base = vim.lsp.config[name]
@@ -212,7 +228,9 @@ return {
                   end
                   local cfg = vim.tbl_deep_extend("force", {}, base, opts or {})
                   local fts = cfg.filetypes or {}
-                  if #fts == 0 then return end
+                  if #fts == 0 then
+                        return
+                  end
 
                   vim.api.nvim_create_autocmd("FileType", {
                         group = group,

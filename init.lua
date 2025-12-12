@@ -176,6 +176,5 @@ end
 -- NOTE: LOCAL PLUGINS
 -- Load and setup local url opener
 require("custom.plugins.local.url_opener").setup()
-local minimap = require("custom.plugins.local.minimap")
-minimap.setup()
-minimap.toggle() -- Auto-open the minimap
+require("custom.plugins.local.minimap").setup(
+)
