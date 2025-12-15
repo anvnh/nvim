@@ -82,6 +82,8 @@ return {
             pcall(require, "lspconfig.server_configurations.pyright")
             pcall(require, "lspconfig.server_configurations.prettierd")
             pcall(require, "lspconfig.server_configurations.jdtls")
+            pcall(require, "lspconfig.server_configurations.rust_analyzer")
+            pcall(require, "lspconfig.server_configurations.qmlls")
 
             -- Select TS server (prefer ts_ls, fallback to tsserver)
             local ts_name
@@ -171,6 +173,15 @@ return {
                   },
                   jdtls = { capabilities = capabilities },
                   rust_analyzer = { capabilities = capabilities },
+                  qmlls = {
+                        capabilities = capabilities,
+                        cmd = { "qmlls", "-E" },
+                        filetypes = { "qml", "qmljs" },
+                        root_dir = function(fname)
+                              return require("lspconfig.util").root_pattern("flake.nix", ".git", "qmldir")(fname)
+                                    or vim.loop.cwd()
+                        end,
+                  },
             }
 
             -- NixOS: Check if binaries are on PATH
