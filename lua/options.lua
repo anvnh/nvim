@@ -37,9 +37,9 @@ opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true
 opt.timeoutlen = 400
+
 -- opt.undofile = true
 opt.whichwrap:append("<>[]hl")
-opt.scrolloff = 8
 opt.mouse = "a"
 -- opt.mouse = ''
 opt.showmode = false
@@ -67,7 +67,11 @@ opt.splitright = true
 opt.splitbelow = true
 -- Sets how neovim will display certain whitespace characters in the editor.
 opt.list = true
-opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+opt.listchars = {
+      tab = "» ",
+      trail = "·",
+      nbsp = "␣",
+}
 -- Preview substitutions live, as you type!
 opt.inccommand = "split"
 -- Show which line your cursor is on

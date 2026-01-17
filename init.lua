@@ -176,5 +176,4 @@ end
 -- NOTE: LOCAL PLUGINS
 -- Load and setup local url opener
 require("custom.plugins.local.url_opener").setup()
-require("custom.plugins.local.minimap").setup(
-)
+require("custom.plugins.local.minimap").setup()
