@@ -30,7 +30,11 @@ return {
 
       local builtin = require("telescope.builtin")
 
-      vim.keymap.set("n", "<leader>ff", builtin.find_files, { noremap = true, silent = true, desc = "[F]ind [F]iles" })
+      vim.keymap.set("n", "<leader>ff", function()
+        builtin.find_files({
+          find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+        })
+      end, { noremap = true, silent = true, desc = "[F]ind [F]iles" })
       vim.keymap.set("n", "<leader>ro", builtin.oldfiles, { noremap = true, silent = true, desc = "[R]ecently [O]pened files" })
       vim.keymap.set("n", "<leader>gf", builtin.live_grep, { noremap = true, silent = true, desc = "[G]rep [F]iles" })
       vim.keymap.set("n", "<leader>lb", builtin.buffers, { noremap = true, silent = true, desc = "[L]ist [B]uffers" })
