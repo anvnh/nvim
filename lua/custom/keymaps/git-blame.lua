@@ -1,3 +1,3 @@
-require 'globals'
+require("globals")
 
-map('n', '<leader>bl', '<cmd>:GitBlameToggle<CR>', create_desc 'Toggle Git Blame')
+map("n", "<leader>bl", "<cmd>:GitBlameToggle<CR>", create_desc("Toggle Git Blame"))
