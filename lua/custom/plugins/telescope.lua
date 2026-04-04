@@ -32,7 +32,7 @@ return {
 
       vim.keymap.set("n", "<leader>ff", function()
         builtin.find_files({
-          find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+          find_command = { "fd", "--type", "f", "--hidden", "--no-ignore-vcs", "--exclude", ".git" },
         })
       end, { noremap = true, silent = true, desc = "[F]ind [F]iles" })
       vim.keymap.set("n", "<leader>ro", builtin.oldfiles, { noremap = true, silent = true, desc = "[R]ecently [O]pened files" })
