@@ -3,7 +3,6 @@ require("custom.keymaps.generals")
 -- require 'custom.keymaps.nvchad'
 -- require 'custom.keymaps.bufferline'
 
-require("custom.keymaps.nvimtree")
 require("custom.keymaps.oil")
 require("custom.keymaps.tmux")
 require("custom.keymaps.move")
