@@ -21,7 +21,7 @@ return {
                         sh = { "shfmt" },
                         bash = { "shfmt" },
                         zsh = { "shfmt" },
-                        python = { "pyright" }, -- note: tabs unsupported by black
+                        python = { "ruff_format" },
                         javascript = { "prettier" },
                         typescript = { "prettier" },
                         javascriptreact = { "prettier" },
@@ -132,8 +132,10 @@ return {
                   callback = function()
                         for _, buf in ipairs(vim.api.nvim_list_bufs()) do
                               if vim.api.nvim_buf_is_loaded(buf) then
-                                    vim.api.nvim_set_current_buf(buf)
-                                    vim.cmd("doautocmd BufReadPost")
+                                    vim.api.nvim_exec_autocmds("BufEnter", {
+                                          buffer = buf,
+                                          modeline = false,
+                                    })
                               end
                         end
                   end,

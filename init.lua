@@ -1,12 +1,3 @@
--- NOTE: Disable automatic diagnostic display - only show on manual trigger
--- vim.api.nvim_create_autocmd('CursorHold', {
---   callback = function()
---     vim.diagnostic.open_float(nil, { focus = false })
---   end,
--- })
-
-vim.opt.termguicolors = true
-
 -- Configure diagnostics to be less intrusive
 vim.diagnostic.config({
     virtual_text = false, -- Disable inline diagnostic text
@@ -20,59 +11,6 @@ vim.diagnostic.config({
         header = "",
         prefix = "",
     },
-})
-
-local autocmd = vim.api.nvim_create_autocmd
-
--- NOTE: Dynamic terminal padding
-autocmd("VimEnter", {
-    command = ":silent !kitty @ set-spacing padding=0 margin=0",
-})
-
-autocmd("VimLeavePre", {
-    command = ":silent !kitty @ set-spacing padding=20 margin=10",
-})
-
-vim.api.nvim_create_autocmd("User", {
-    pattern = "UndotreeHide",
-    callback = function()
-        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            local bufname = vim.api.nvim_buf_get_name(buf)
-            if bufname == "[No Name]" then -- Buffer không có tên (No Name)
-                vim.cmd("bdelete! " .. buf)
-            end
-        end
-    end,
-})
-
--- Add this to your init.lua or relevant config file
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "markdown",
-    callback = function()
-        vim.b.autoformat = false -- Disable autoformatting for markdown files
-    end,
-})
-
--- NOTE: Enable godothost for coding in godot
--- local projectfile = vim.fn.getcwd() .. '/project.godot'
--- if projectfile then
---   vim.fn.serverstart './godothost'
--- end
-
--- NOTE: Restore cursor position when open file
-autocmd("BufReadPost", {
-    pattern = "*",
-    callback = function()
-        local line = vim.fn.line("'\"")
-        if
-            line > 1
-            and line <= vim.fn.line("$")
-            and vim.bo.filetype ~= "commit"
-            and vim.fn.index({ "xxd", "gitrebase" }, vim.bo.filetype) == -1
-        then
-            vim.cmd('normal! g`"')
-        end
-    end,
 })
 
 -- NOTE: Make :W = :w
@@ -93,15 +31,10 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- NOTE: Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
-
--- Customize highlight group for yank
 vim.api.nvim_set_hl(0, "YankHighlight", {
-    bg = "#6c8291",
+    bg = "#2370eb",
     ctermbg = 24,
 })
-
 -- Create autocommand to highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking (copying) text",
@@ -115,8 +48,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 require("options")
-require("mappings")
 require("globals")
+require("autocmds")
+require("mappings")
+require("custom.commands")
 
 -- require 'custom.keymaps.init'
 require("lazy").setup({
@@ -146,7 +81,6 @@ require("lazy").setup({
 -- Apply saved theme (fallback to catppuccin)
 pcall(function()
     local theme = require("custom.utils.theme_picker")
-    local applied = theme.apply_saved_or("catppuccin")
     theme.apply_saved_or("catppuccin")
 end)
 
@@ -175,6 +109,5 @@ do
 end
 
 -- NOTE: LOCAL PLUGINS
--- Load and setup local url opener
 require("custom.plugins.local.url_opener").setup()
 require("custom.plugins.local.minimap").setup()

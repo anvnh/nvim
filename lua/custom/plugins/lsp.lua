@@ -8,6 +8,8 @@ return {
         "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
+        local util = require("lspconfig.util")
+
         -- Keymaps on LSP attach
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
@@ -141,10 +143,17 @@ return {
                     },
                 },
             },
-            gdscript = { capabilities = capabilities },
+            gdscript = {
+                capabilities = capabilities,
+                cmd = { "ncat", "127.0.0.1", "6005" },
+            },
             -- kotlin_language_server = { capabilities = capabilities },
             lua_ls = {
                 capabilities = capabilities,
+                cmd = {
+                    vim.fn.exepath("lua-language-server") ~= "" and vim.fn.exepath("lua-language-server")
+                        or "lua-language-server",
+                },
                 settings = {
                     Lua = {
                         workspace = { checkThirdParty = false },
@@ -155,6 +164,11 @@ return {
             },
             pyright = {
                 capabilities = capabilities,
+                cmd = {
+                    vim.fn.exepath("pyright-langserver") ~= "" and vim.fn.exepath("pyright-langserver")
+                        or "pyright-langserver",
+                    "--stdio",
+                },
                 settings = {
                     python = {
                         analysis = {
@@ -170,15 +184,22 @@ return {
                 capabilities = capabilities,
                 cmd = { vim.fn.exepath("nixd") ~= "" and vim.fn.exepath("nixd") or "nixd" },
             },
-            jdtls = { capabilities = capabilities },
+            jdtls = {
+                capabilities = capabilities,
+                cmd = {
+                    vim.fn.exepath("jdtls") ~= "" and vim.fn.exepath("jdtls") or "jdtls",
+                },
+            },
             rust_analyzer = {
                 capabilities = capabilities,
                 cmd = {
                     vim.fn.exepath("rust-analyzer") ~= "" and vim.fn.exepath("rust-analyzer") or "rust-analyzer",
                 },
+                single_file_support = true,
                 root_dir = function(fname)
-                    return require("lspconfig.util").root_pattern("Cargo.toml", "rust-project.json")(fname)
-                        or require("lspconfig.util").root_pattern(".git")(fname)
+                    return util.root_pattern("Cargo.toml", "rust-project.json")(fname)
+                        or util.root_pattern(".git")(fname)
+                        or vim.fs.dirname(fname)
                 end,
                 settings = {
                     ["rust-analyzer"] = {
@@ -196,7 +217,7 @@ return {
                 cmd = { "qmlls", "-E" },
                 filetypes = { "qml", "qmljs" },
                 root_dir = function(fname)
-                    return require("lspconfig.util").root_pattern("flake.nix", ".git", "qmldir")(fname)
+                    return util.root_pattern("flake.nix", ".git", "qmldir")(fname)
                         or vim.loop.cwd()
                 end,
             },
@@ -210,32 +231,27 @@ return {
             automatic_installation = false,
         })
 
-        local function warn_missing(bin)
-            if vim.fn.exepath(bin) == "" then
-                vim.schedule(function()
-                    vim.notify("Binary missing on PATH: " .. bin .. " (using Nix)", vim.log.levels.WARN)
-                end)
+        local function has_cmd(opts)
+            local cmd = opts.cmd
+            if type(cmd) ~= "table" or type(cmd[1]) ~= "string" then
+                return true
             end
-        end
-        for _, b in ipairs({
-            "clangd",
-            "typescript-language-server",
-            "pyright",
-            "nixd",
-            "tailwindcss-language-server",
-            "eslint_d",
-            -- "kotlin-language-server",
-            "stylua",
-            "biome",
-            "rust-analyzer",
-        }) do
-            warn_missing(b)
+
+            local bin = cmd[1]
+            if bin:find("/") then
+                return vim.fn.executable(bin) == 1
+            end
+
+            return vim.fn.executable(bin) == 1
         end
 
         for name, opts in pairs(servers) do
-            local ok = pcall(require, "lspconfig.server_configurations." .. name)
-            if not ok and not vim.lsp.config[name] then
+            if not vim.lsp.config[name] then
                 vim.notify(("LSP server '%s' is not registered (nvim-lspconfig)"):format(name), vim.log.levels.WARN)
+            elseif not has_cmd(opts) then
+                vim.schedule(function()
+                    vim.notify(("Skipping LSP server '%s': executable not found on PATH"):format(name), vim.log.levels.INFO)
+                end)
             else
                 vim.lsp.config(name, opts)
                 vim.lsp.enable(name)

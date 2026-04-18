@@ -1,8 +1,6 @@
 local opt = vim.opt
 local g = vim.g
 g.have_nerd_font = true
-opt.number = true
--- Set laststatus=3
 opt.laststatus = 3
 
 -- Undercurl
@@ -36,7 +34,6 @@ opt.signcolumn = "yes"
 opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true
-opt.timeoutlen = 400
 
 -- opt.undofile = true
 opt.whichwrap:append("<>[]hl")
@@ -48,7 +45,7 @@ opt.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-      opt.clipboard = "unnamedplus"
+    opt.clipboard = "unnamedplus"
 end)
 -- Enable break indent
 opt.breakindent = true
@@ -68,13 +65,12 @@ opt.splitbelow = true
 -- Sets how neovim will display certain whitespace characters in the editor.
 opt.list = true
 opt.listchars = {
-      tab = "» ",
-      trail = "·",
-      nbsp = "␣",
+    tab = "» ",
+    trail = "·",
+    nbsp = "␣",
 }
 -- Preview substitutions live, as you type!
 opt.inccommand = "split"
 -- Show which line your cursor is on
-opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 opt.scrolloff = 20
