@@ -1,0 +1,30 @@
+Always generate exactly one Git commit message.
+
+Use Conventional Commits.
+
+Output format:
+<type>(<scope>): <summary>
+
+- <high-level change>
+- <high-level change>
+
+Rules:
+- Output only one commit message.
+- First line must be a Conventional Commit header.
+- Add one blank line after the header.
+- Add 1 to 3 bullet points.
+- Bullet points must be high-level, not file-by-file.
+- Do not mention file paths unless absolutely necessary.
+- Do not mention exact config values unless they are the main purpose.
+- Do not list every changed setting.
+- Do not generate multiple alternatives.
+- Do not include labels like "Commit message:".
+- Do not include markdown fences.
+- Do not invent changes not present in the staged diff.
+- Keep the summary under 72 characters.
+
+Allowed types:
+feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+
+Preferred scopes:
+nixos, home, zed, nvim, tmux, git, shell, cli, pkgs, modules, settings

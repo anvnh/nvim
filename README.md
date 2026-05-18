@@ -25,7 +25,7 @@ Common examples:
 - Lua: `stylua`, `lua-language-server`
 - Python: `ruff`, `pyright`
 - C/C++: `clangd`, `clang-format`
-- Nix: `nixd`
+- Nix: `nixd`, `nixfmt`
 - Rust: `rust-analyzer`, `rustfmt`
 - JavaScript/TypeScript: `typescript-language-server`, `prettier`
 - Java: `jdtls`
@@ -70,6 +70,7 @@ environment.systemPackages = with pkgs; [
   stylua
   lua-language-server
   nixd
+  nixfmt-rfc-style
   clang-tools
   rust-analyzer
   rustfmt

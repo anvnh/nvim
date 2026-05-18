@@ -5,26 +5,26 @@ local i = ls.insert_node
 local f = ls.function_node
 
 local function comment_prefix()
-      local cs = vim.bo.commentstring
-      if cs == "" then
-            return "//"
-      end
-      return cs:match("^(.*)%%s"):gsub("%s*$", "")
+    local cs = vim.bo.commentstring
+    if cs == "" then
+        return "//"
+    end
+    return cs:match("^(.*)%%s"):gsub("%s*$", "")
 end
 
 ls.add_snippets("all", {
-      s("sec", {
-            f(function()
-                  return comment_prefix() .. " --------------------------------"
-            end, {}),
-            t({ "", "" }),
-            f(function()
-                  return comment_prefix() .. " "
-            end, {}),
-            i(1, "Section"),
-            t({ "", "" }),
-            f(function()
-                  return comment_prefix() .. " --------------------------------"
-            end, {}),
-      }),
+    s("sec", {
+        f(function()
+            return comment_prefix() .. " --------------------------------"
+        end, {}),
+        t({ "", "" }),
+        f(function()
+            return comment_prefix() .. " "
+        end, {}),
+        i(1, "Section"),
+        t({ "", "" }),
+        f(function()
+            return comment_prefix() .. " --------------------------------"
+        end, {}),
+    }),
 })
