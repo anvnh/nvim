@@ -68,56 +68,22 @@ return {
             require("cmp_nvim_lsp").default_capabilities()
         )
 
-        -- Make sure to load server definitions before accessing vim.lsp.config[name]
-        pcall(require, "lspconfig.server_configurations.clangd")
-        pcall(require, "lspconfig.server_configurations.ts_ls")
-        pcall(require, "lspconfig.server_configurations.tsserver")
-        -- pcall(require, "lspconfig.server_configurations.kotlin_language_server")
-        pcall(require, "lspconfig.server_configurations.gdscript")
-        pcall(require, "lspconfig.server_configurations.lua_ls")
-        pcall(require, "lspconfig.server_configurations.pyright")
-        pcall(require, "lspconfig.server_configurations.prettierd")
-        pcall(require, "lspconfig.server_configurations.jdtls")
-        pcall(require, "lspconfig.server_configurations.rust_analyzer")
-        pcall(require, "lspconfig.server_configurations.nixd")
-        pcall(require, "lspconfig.server_configurations.qmlls")
-
-        -- Select TS server (prefer ts_ls, fallback to tsserver)
-        local ts_name
-        if vim.lsp.config.ts_ls then
-            ts_name = "ts_ls"
-        elseif vim.lsp.config.tsserver then
-            ts_name = "tsserver"
-        else
-            -- Try to load both to see which is available
-            pcall(require, "lspconfig.server_configurations.ts_ls")
-            pcall(require, "lspconfig.server_configurations.tsserver")
-            if vim.lsp.config.ts_ls then
-                ts_name = "ts_ls"
-            elseif vim.lsp.config.tsserver then
-                ts_name = "tsserver"
-            else
-                ts_name = "ts_ls" -- default to ts_ls
-            end
-        end
-
         local servers = {
-            clangd = (function()
-                local cap = vim.deepcopy(capabilities)
-                cap.offsetEncoding = { "utf-16" }
-                return {
-                    capabilities = cap,
-                    cmd = {
-                        vim.fn.exepath("clangd") ~= "" and vim.fn.exepath("clangd") or "clangd",
-                        "--background-index",
-                        "--clang-tidy",
-                        "--all-scopes-completion",
-                        "--header-insertion=iwyu",
-                    },
-                }
-            end)(),
-            [ts_name] = {
-                capabilities = capabilities,
+            clangd = {
+                capabilities = (function()
+                    local cap = vim.deepcopy(capabilities)
+                    cap.offsetEncoding = { "utf-16" }
+                    return cap
+                end)(),
+                cmd = {
+                    "clangd",
+                    "--background-index",
+                    "--clang-tidy",
+                    "--all-scopes-completion",
+                    "--header-insertion=iwyu",
+                },
+            },
+            ts_ls = {
                 settings = {
                     typescript = {
                         inlayHints = {
@@ -143,17 +109,7 @@ return {
                     },
                 },
             },
-            gdscript = {
-                capabilities = capabilities,
-                cmd = { "ncat", "127.0.0.1", "6005" },
-            },
-            -- kotlin_language_server = { capabilities = capabilities },
             lua_ls = {
-                capabilities = capabilities,
-                cmd = {
-                    vim.fn.exepath("lua-language-server") ~= "" and vim.fn.exepath("lua-language-server")
-                        or "lua-language-server",
-                },
                 settings = {
                     Lua = {
                         workspace = { checkThirdParty = false },
@@ -163,16 +119,10 @@ return {
                 },
             },
             pyright = {
-                capabilities = capabilities,
-                cmd = {
-                    vim.fn.exepath("pyright-langserver") ~= "" and vim.fn.exepath("pyright-langserver")
-                        or "pyright-langserver",
-                    "--stdio",
-                },
                 settings = {
                     python = {
                         analysis = {
-                            typeCheckingMode = "basic", -- "off" | "basic" | "strict"
+                            typeCheckingMode = "basic",
                             autoImportCompletions = true,
                             useLibraryCodeForTypes = true,
                             diagnosticMode = "openFilesOnly",
@@ -180,21 +130,8 @@ return {
                     },
                 },
             },
-            nixd = {
-                capabilities = capabilities,
-                cmd = { vim.fn.exepath("nixd") ~= "" and vim.fn.exepath("nixd") or "nixd" },
-            },
-            jdtls = {
-                capabilities = capabilities,
-                cmd = {
-                    vim.fn.exepath("jdtls") ~= "" and vim.fn.exepath("jdtls") or "jdtls",
-                },
-            },
+            jdtls = {},
             rust_analyzer = {
-                capabilities = capabilities,
-                cmd = {
-                    vim.fn.exepath("rust-analyzer") ~= "" and vim.fn.exepath("rust-analyzer") or "rust-analyzer",
-                },
                 single_file_support = true,
                 root_dir = function(fname)
                     return util.root_pattern("Cargo.toml", "rust-project.json")(fname)
@@ -213,7 +150,6 @@ return {
                 },
             },
             qmlls = {
-                capabilities = capabilities,
                 cmd = { "qmlls", "-E" },
                 filetypes = { "qml", "qmljs" },
                 root_dir = function(fname)
@@ -221,41 +157,25 @@ return {
                         or vim.loop.cwd()
                 end,
             },
+            bashls = {
+                filetypes = { "sh", "bash" },
+            },
         }
 
-        -- NixOS: Check if binaries are on PATH
         require("mason").setup()
-        require("mason-tool-installer").setup({ ensure_installed = {} })
+
+        local ensure_installed = vim.tbl_keys(servers)
+        require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
         require("mason-lspconfig").setup({
-            ensure_installed = {},
-            automatic_installation = false,
+            ensure_installed = ensure_installed,
+            automatic_installation = true,
         })
 
-        local function has_cmd(opts)
-            local cmd = opts.cmd
-            if type(cmd) ~= "table" or type(cmd[1]) ~= "string" then
-                return true
-            end
-
-            local bin = cmd[1]
-            if bin:find("/") then
-                return vim.fn.executable(bin) == 1
-            end
-
-            return vim.fn.executable(bin) == 1
-        end
-
         for name, opts in pairs(servers) do
-            if not vim.lsp.config[name] then
-                vim.notify(("LSP server '%s' is not registered (nvim-lspconfig)"):format(name), vim.log.levels.WARN)
-            elseif not has_cmd(opts) then
-                vim.schedule(function()
-                    vim.notify(("Skipping LSP server '%s': executable not found on PATH"):format(name), vim.log.levels.INFO)
-                end)
-            else
-                vim.lsp.config(name, opts)
-                vim.lsp.enable(name)
-            end
+            opts.capabilities = vim.tbl_deep_extend("force", {}, capabilities, opts.capabilities or {})
+            vim.lsp.config(name, opts)
+            vim.lsp.enable(name)
         end
     end,
 }

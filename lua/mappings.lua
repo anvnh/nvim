@@ -10,7 +10,6 @@ require("custom.keymaps.move")
 require("custom.keymaps.toggleterm")
 
 require("custom.keymaps.todo")
--- require 'custom.keymaps.tdofloat'
 
 require("custom.keymaps.git-blame")
 
@@ -20,7 +19,6 @@ require("custom.keymaps.toggle-checkbox")
 
 require("custom.keymaps.competitive_programming")
 require("custom.keymaps.coderunner")
-require("custom.keymaps.copilot")
 -- require 'custom.keymaps.markdown'
 require("custom.keymaps.flutter")
 

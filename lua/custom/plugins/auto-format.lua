@@ -11,7 +11,6 @@ return {
             },
             notify_on_error = true,
 
-            -- apply to all filetypes; you can prune this list to what you use
             formatters_by_ft = {
                 lua = { "stylua" },
                 cpp = { "clang_format" },

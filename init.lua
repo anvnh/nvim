@@ -110,4 +110,3 @@ end
 
 -- NOTE: LOCAL PLUGINS
 require("custom.plugins.local.url_opener").setup()
-require("custom.plugins.local.minimap").setup()
