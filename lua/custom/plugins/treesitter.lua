@@ -24,7 +24,12 @@ return {
             callback = function(args)
                 pcall(vim.treesitter.start, args.buf)
 
-                if vim.bo[args.buf].filetype ~= "ruby" then
+                local filetype = vim.bo[args.buf].filetype
+
+                if filetype == "c" or filetype == "cpp" then
+                    vim.bo[args.buf].indentexpr = ""
+                    vim.bo[args.buf].cindent = true
+                elseif filetype ~= "ruby" then
                     vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
                 end
             end,

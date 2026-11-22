@@ -41,21 +41,30 @@ api_map("n", "<C-S-A-Right>", "<Cmd>vertical resize -5<CR>", opts)
 
 --{{{ Goto definition
 api_map(
-      "n",
-      "gpd",
-      "<cmd>lua require('goto-preview').goto_preview_definition()<CR>",
-      create_desc("Preview [D]efinition")
+    "n",
+    "gpd",
+    "<cmd>lua require('goto-preview').goto_preview_definition()<CR>",
+    create_desc("Preview [D]efinition")
 )
 --}}}
 
 --{{{ Comment
-api_map("n", "<leader>/", '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', create_desc("Comment line"))
-api_map(
-      "v",
-      "<leader>/",
-      '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>',
-      create_desc("Comment selection")
-)
+-- api_map("n", "<leader>/", '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', create_desc("Comment line"))
+-- api_map(
+--       "v",
+--       "<leader>/",
+--       '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>',
+--       create_desc("Comment selection")
+-- )
+vim.keymap.set("n", "<leader>/", "gcc", {
+    remap = true,
+    desc = "Toggle comment line",
+})
+
+vim.keymap.set("x", "<leader>/", "gc", {
+    remap = true,
+    desc = "Toggle comment selection",
+})
 --}}}
 
 --{{{ Line number
@@ -65,44 +74,44 @@ api_map("n", "<leader>rnu", "<cmd>set rnu!<CR>", create_desc("Toggle relative li
 
 --{{{ LSP Code action
 map("n", "<leader>ca", function()
-      vim.lsp.buf.code_action()
+    vim.lsp.buf.code_action()
 end, { desc = "Code action" })
 --}}}
 
 --{{{ Diagnostics
 -- Show diagnostic under cursor
 map("n", "<leader>d", function()
-      vim.diagnostic.open_float(nil, { focus = false })
+    vim.diagnostic.open_float(nil, { focus = false })
 end, { desc = "Show diagnostic under cursor" })
 
 -- Show all diagnostics in current buffer
 map("n", "<leader>dd", function()
-      vim.diagnostic.setloclist()
+    vim.diagnostic.setloclist()
 end, { desc = "Show all diagnostics in buffer" })
 
 -- Navigate diagnostics
 map("n", "[d", function()
-      vim.diagnostic.goto_prev()
+    vim.diagnostic.goto_prev()
 end, { desc = "Go to previous diagnostic" })
 
 map("n", "]d", function()
-      vim.diagnostic.goto_next()
+    vim.diagnostic.goto_next()
 end, { desc = "Go to next diagnostic" })
 
 -- Toggle diagnostic virtual text
 map("n", "<leader>dt", function()
-      local current = vim.diagnostic.config().virtual_text
-      vim.diagnostic.config({ virtual_text = not current })
+    local current = vim.diagnostic.config().virtual_text
+    vim.diagnostic.config({ virtual_text = not current })
 end, { desc = "Toggle diagnostic virtual text" })
 --}}}
 
 --{{{ Theme picker
 map("n", "<leader>tt", function()
-      require("custom.utils.theme_picker").open()
+    require("custom.utils.theme_picker").open()
 end, { desc = "Select theme" })
 
 --{{{ Minimap
 map("n", "<leader>m", function()
-      require("custom.plugins.local.minimap").toggle()
+    require("custom.plugins.local.minimap").toggle()
 end, { desc = "Toggle Minimap" })
 --}}}

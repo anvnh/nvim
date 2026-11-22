@@ -1,10 +1,10 @@
 -- Configure diagnostics to be less intrusive
 vim.diagnostic.config({
-    virtual_text = false, -- Disable inline diagnostic text
-    signs = true, -- Keep diagnostic signs in gutter
-    underline = true, -- Keep underline for errors
+    virtual_text = false,     -- Disable inline diagnostic text
+    signs = true,             -- Keep diagnostic signs in gutter
+    underline = true,         -- Keep underline for errors
     update_in_insert = false, -- Don't update diagnostics while typing
-    severity_sort = true, -- Sort diagnostics by severity
+    severity_sort = true,     -- Sort diagnostics by severity
     float = {
         border = "rounded",
         source = "always",
@@ -12,6 +12,8 @@ vim.diagnostic.config({
         prefix = "",
     },
 })
+
+vim.opt.clipboard = "unnamedplus"
 
 -- NOTE: Make :W = :w
 vim.api.nvim_create_user_command("W", "w", {})
@@ -110,3 +112,4 @@ end
 
 -- NOTE: LOCAL PLUGINS
 require("custom.plugins.local.url_opener").setup()
+
