@@ -111,5 +111,5 @@ do
 end
 
 -- NOTE: LOCAL PLUGINS
+require("custom.highlights")
 require("custom.plugins.local.url_opener").setup()
-
